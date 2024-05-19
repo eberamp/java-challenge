@@ -1,8 +1,10 @@
 package com.example.restservice.exception;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@Data
 @RequiredArgsConstructor
 public class ErrorResponse {
-    private String message;
+    private final String message;
 }

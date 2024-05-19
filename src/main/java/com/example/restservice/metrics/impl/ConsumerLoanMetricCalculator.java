@@ -1,6 +1,5 @@
 package com.example.restservice.metrics.impl;
 
-import com.example.restservice.constant.LoanType;
 import org.springframework.stereotype.Component;
 
 import com.example.restservice.metrics.ILoanMetricCalculator;

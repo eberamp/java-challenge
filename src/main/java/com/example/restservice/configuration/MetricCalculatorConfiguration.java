@@ -1,5 +1,6 @@
-package com.example.restservice.constant;
+package com.example.restservice.configuration;
 
+import com.example.restservice.constant.LoanType;
 import com.example.restservice.metrics.ILoanMetricCalculator;
 import com.example.restservice.metrics.impl.ConsumerLoanMetricCalculator;
 import com.example.restservice.metrics.impl.StudentLoanMetricCalculator;
@@ -19,9 +20,9 @@ public class MetricCalculatorConfiguration {
     @Autowired
     private final List<ILoanMetricCalculator> calculators;
 
-    @Bean("metricCalculators")
-    public Map<LoanType, ILoanMetricCalculator> mapMetricCalculators() {
-        Map<LoanType, ILoanMetricCalculator> map = new HashMap<>();
+    @Bean(name = "metricCalculators")
+    public HashMap<LoanType, ILoanMetricCalculator> mapMetricCalculators() {
+        HashMap<LoanType, ILoanMetricCalculator> map = new HashMap<>();
 
         // In case more LoanTypes are added and require to use a different or the same calculator
         // we can map each implementation to a type here

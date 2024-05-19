@@ -1,12 +1,16 @@
 package com.example.restservice.constant;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
 public enum LoanType {
 
+    @JsonProperty("consumer")
     CONSUMER("consumer"),
-    STUDENT("consumer");
+
+    @JsonProperty("student")
+    STUDENT("student");
 
     private final String label;
 

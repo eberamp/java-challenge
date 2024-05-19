@@ -19,6 +19,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class LoanMetricFactory {
 
+    @Autowired
     private final HashMap<LoanType, ILoanMetricCalculator> metricCalculators;
 
     // Renamed the method to make it more representative of what it does instead of simply getInstance
