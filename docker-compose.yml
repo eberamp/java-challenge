@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  persistence:
+    image: mongo:latest
+    container_name: ntd-mongo
+    ports:
+      - "27017:27017"
+    expose:
+      - 27017
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - loansnetwork
+
+  rest:
+    image: loans-service:latest
+    container_name: ntd-loans
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - persistence
+    ports:
+      - "8080:8080"
+    tty: true
+    volumes:
+      - loans_service_logs:/app
+    environment:
+      MONGODB_URI: mongodb://persistence:27017/ntdsoftware
+    networks:
+      - loansnetwork
+
+networks:
+  loansnetwork:
+
+volumes:
+  mongodb_data:
+  loans_service_logs:
