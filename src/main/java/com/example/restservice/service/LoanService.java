@@ -21,8 +21,11 @@ public class LoanService implements ILoanService {
 	private final LoanMetricFactory loanMetricFactory;
 
 	public Optional<Loan> findLoanById(Long id) {
-		return Optional.empty();
-		//return Optional.of(LoanGeneratonUtil.createLoan(id));
+		return Optional.of(LoanGeneratonUtil.createLoan(id));
+	}
+
+	public List<Loan> findAllLoans(){
+		return LoanGeneratonUtil.getRandomLoans(20L);
 	}
 
 	public Optional<LoanMetric> calculateLoanMetric(Loan loan) {
@@ -40,7 +43,7 @@ public class LoanService implements ILoanService {
 	}
 
 	public Optional<Loan> getMaxMonthlyPaymentLoan() {
-		List<Loan> allLoans = LoanGeneratonUtil.getRandomLoans(20L);
+		List<Loan> allLoans = findAllLoans();
         return allLoans.stream()
 				.max(Comparator.comparingDouble( loan ->
 						loanMetricFactory.getCalculatorForLoanType(loan.getType())
@@ -53,7 +56,7 @@ public class LoanService implements ILoanService {
 		if(calculator.isSupported(loan)){
 			return calculator.getLoanMetric(loan);
 		} else {
-			throw new UnsupportedLoanTypeException("Loan type not supported");
+			throw new UnsupportedLoanTypeException("Loan type not supported: " + loan.getType().getLabel());
 		}
 	}
 }

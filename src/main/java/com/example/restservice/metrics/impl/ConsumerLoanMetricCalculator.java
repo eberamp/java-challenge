@@ -1,5 +1,6 @@
 package com.example.restservice.metrics.impl;
 
+import com.example.restservice.constant.LoanType;
 import org.springframework.stereotype.Component;
 
 import com.example.restservice.metrics.ILoanMetricCalculator;
@@ -19,6 +20,12 @@ public class ConsumerLoanMetricCalculator implements ILoanMetricCalculator {
 		Double monthlyInterestRate = loan.getMonthlyInterestRate();
 		double monthlyPayment = (loan.getRequestedAmount() * monthlyInterestRate) / (1 - (Math.pow(1 + monthlyInterestRate, -loan.getTermMonths())));
         return new LoanMetric(monthlyInterestRate, monthlyPayment);
+	}
+
+	@Override
+	public boolean isSupported(Loan loan){
+		return ILoanMetricCalculator.super.isSupported(loan)
+				&& LoanType.CONSUMER.equals(loan.getType());
 	}
 
 }

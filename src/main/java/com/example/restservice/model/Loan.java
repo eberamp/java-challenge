@@ -35,6 +35,9 @@ public class Loan {
 	private LoanType type;
 
 	@NotNull
+	private Long loanOfficerId; // This didn't exist originally, but I see it in the sample request so idk
+
+	@NotNull
 	@Valid
 	private Borrower borrower;
 

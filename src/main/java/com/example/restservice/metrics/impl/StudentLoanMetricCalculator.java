@@ -1,5 +1,6 @@
 package com.example.restservice.metrics.impl;
 
+import com.example.restservice.constant.LoanType;
 import com.example.restservice.metrics.ILoanMetricCalculator;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
@@ -39,6 +40,7 @@ public class StudentLoanMetricCalculator implements ILoanMetricCalculator {
 		*/
 		int borrowerAge = loan.getBorrower().getAge();
 		return ILoanMetricCalculator.super.isSupported(loan)
+				&& LoanType.STUDENT.equals(loan.getType())
 				&& borrowerAge > 18
 				&& borrowerAge < 30;
 	}

@@ -25,6 +25,7 @@ public class LoanGeneratonUtil {
 		loan.setRequestedAmount(1000D * loanId);
 		loan.setTermMonths(loanId % 2 == 0 ? 36 : 60);
 		loan.setAnnualInterest(0.2d * (loanId / (loanId + 1.0d)));
+		loan.setLoanOfficerId(loanId + 1);
 		loan.setType(loanType);
 		loan.setBorrower(borrower);
 
