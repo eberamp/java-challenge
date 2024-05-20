@@ -3,7 +3,7 @@ package com.example.restservice.metrics.impl;
 import com.example.restservice.constant.LoanType;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
-import com.example.restservice.util.LoanGeneratonUtil;
+import com.example.restservice.util.LoanGeneratorUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +15,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void shouldGetCorrectLoanMetric() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
 
         Double expectedMonthlyInterestRate = calculateMonthlyInterestRate(loan); // repeat algorithm
@@ -28,7 +28,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnTrueWhenLoanTypeIsValid() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
 
         assertTrue(calculator.isSupported(loan));
@@ -37,7 +37,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenLoanTypeIsStudent() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.STUDENT);
 
         assertFalse(calculator.isSupported(loan));

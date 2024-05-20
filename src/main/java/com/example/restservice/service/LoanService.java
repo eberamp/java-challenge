@@ -7,7 +7,7 @@ import com.example.restservice.metrics.LoanMetricFactory;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
 import com.example.restservice.repository.LoanRepository;
-import com.example.restservice.util.LoanGeneratonUtil;
+import com.example.restservice.util.LoanGeneratorUtil;
 import com.mongodb.MongoException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,11 +32,11 @@ public class LoanService implements ILoanService {
 	}
 
 	public List<Loan> generateAllLoans(){
-		return LoanGeneratonUtil.getRandomLoans(20L);
+		return LoanGeneratorUtil.getRandomLoans(20L);
 	}
 
 	public Optional<Loan> saveLoan(){
-		Loan loan = LoanGeneratonUtil.createLoan();
+		Loan loan = LoanGeneratorUtil.createLoan();
 
 		try {
 			loanRepository.save(loan);

@@ -3,7 +3,7 @@ package com.example.restservice.metrics.impl;
 import com.example.restservice.constant.LoanType;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
-import com.example.restservice.util.LoanGeneratonUtil;
+import com.example.restservice.util.LoanGeneratorUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,7 +14,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void shouldGetCorrectLoanMetric() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.STUDENT);
         loan.getBorrower().setAge(19);
 
@@ -28,7 +28,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnTrueWhenLoanTypeAndBorrowersAgeValid() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.STUDENT);
         loan.getBorrower().setAge(19);
 
@@ -37,7 +37,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenLoanTypeIsConsumer() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
         loan.getBorrower().setAge(19);
 
@@ -46,7 +46,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenBorrowerAgeIsNotValid() {
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         loan.setType(LoanType.STUDENT);
 
         loan.getBorrower().setAge(18);

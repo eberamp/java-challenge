@@ -9,7 +9,7 @@ import com.example.restservice.metrics.impl.ConsumerLoanMetricCalculator;
 import com.example.restservice.metrics.impl.StudentLoanMetricCalculator;
 import com.example.restservice.model.Loan;
 import com.example.restservice.repository.LoanRepository;
-import com.example.restservice.util.LoanGeneratonUtil;
+import com.example.restservice.util.LoanGeneratorUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,7 +52,7 @@ class LoanServiceTest {
         Mockito.when(calculator.isSupported(any(Loan.class)))
                 .thenReturn(false);
 
-        Loan loan = LoanGeneratonUtil.createLoan();
+        Loan loan = LoanGeneratorUtil.createLoan();
         assertThrows(UnsupportedLoanTypeException.class, () -> service.calculateLoanMetric(loan));
     }
 

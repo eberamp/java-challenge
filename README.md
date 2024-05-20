@@ -1,4 +1,4 @@
-# Java-hallenge
+# Java Challenge
  Java8+ challenge. Spring, SpringBoot, Rest, Dependency Injection
 
 - Java 8
@@ -49,12 +49,12 @@ Gracefully shutdown
 docker compose down
 ```
 
-In order to avoid caching issues when making a change and remove the volumes along the containers use the flag `-v`
+In order to avoid caching issues when making a change, remove the volumes along with the containers using the flag `-v`
 ```shell
 docker compose down -v
 ```
 
-If you only want to build and start up a mongo container simply do
+If you only want to build and start up a mongo container to run the Application locally, simply do
 ```shell
 $ docker pull mongo
 $ docker run --name my-container-name -d mongo:latest
