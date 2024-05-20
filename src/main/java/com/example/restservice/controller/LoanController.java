@@ -1,5 +1,6 @@
 package com.example.restservice.controller;
 
+import com.example.restservice.exception.LoanNotFoundException;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
 import com.example.restservice.service.ILoanService;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/loans")
+@RequestMapping("/api") // decided to change the base path just as a preference
 public class LoanController {
 
 	private final ILoanService loanService;
@@ -30,7 +31,7 @@ public class LoanController {
 		this.loanService = loanService;
 	}
 
-	@GetMapping("/generate")
+	@GetMapping("/loans/generate")
 	public ResponseEntity<Loan> saveLoan() {
 
 		Optional<Loan> loan = loanService.saveLoan();
@@ -39,16 +40,20 @@ public class LoanController {
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/loans/{id}")
 	public ResponseEntity<Loan> getLoan(@PathVariable("id") String id) {
 
 		Long loanId = Long.parseLong(id);
 		Optional<Loan> loan = loanService.findLoanById(loanId);
-        return ResponseEntity.of(loan);
 
+		if(!loan.isPresent()){
+			throw new LoanNotFoundException(loanId);
+		}
+
+		return ResponseEntity.of(loan);
     }
 
-	@GetMapping("/all")
+	@GetMapping("/loans/all")
 	public ResponseEntity<List<Loan>> getAllLoans() {
 
 		List<Loan> loans = loanService.getAllLoans();
@@ -81,7 +86,7 @@ public class LoanController {
 		For this endpoint we could do a RequestParam for a variable `sort` and accept `asc` or `desc` and limit the result to 1
 		we could also make it a RequestBody and have more control over the validation and data needed for a more thorough search
 	*/
-	@GetMapping("/search/max-monthly-payment")
+	@GetMapping("loans/find/max-monthly-payment")
 	public ResponseEntity<Loan> getMaxMonthlyPaymentLoan() {
 
 		Optional<Loan> maxMonthlyPaymentLoan = loanService.getMaxMonthlyPaymentLoan();

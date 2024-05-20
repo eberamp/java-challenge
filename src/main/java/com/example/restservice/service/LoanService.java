@@ -56,7 +56,7 @@ public class LoanService implements ILoanService {
 
 	public Optional<LoanMetric> calculateLoanMetric(Long loanId) {
 		Loan loan = findLoanById(loanId).orElseThrow(
-				() -> new LoanNotFoundException("Loan " + loanId)
+				() -> new LoanNotFoundException(loanId)
 		);
 		LoanMetric metric = getLoanMetric(loan);
 		return Optional.of(metric);

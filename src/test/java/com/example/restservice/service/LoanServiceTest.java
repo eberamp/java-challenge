@@ -58,7 +58,7 @@ class LoanServiceTest {
 
     @Test
     void calculateLoanMetricShouldThrowLoanNotFoundException() {
-        Mockito.when(loanRepository.findById(any(String.class)))
+        Mockito.when(loanRepository.findByLoanId(any(Long.class)))
                 .thenReturn(Optional.empty());
 
         Long nonExistentLoanId = 1234L;
