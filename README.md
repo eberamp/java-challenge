@@ -1,4 +1,4 @@
-# Java-challenge
+# Java-hallenge
  Java8+ challenge. Spring, SpringBoot, Rest, Dependency Injection
 
 - Java 8
@@ -74,3 +74,4 @@ $ docker run --name my-container-name -d mongo:latest
   - /api/loans/find/max-monthly-payment
   - /api/metrics/
   - /api/metrics/{id}
+- I wanted to add JaCoCo and set up the reports on build but I didn't have enough time for this extra
