@@ -6,7 +6,9 @@ import com.example.restservice.metrics.ILoanMetricCalculator;
 import com.example.restservice.metrics.LoanMetricFactory;
 import com.example.restservice.model.Loan;
 import com.example.restservice.model.LoanMetric;
+import com.example.restservice.repository.LoanRepository;
 import com.example.restservice.util.LoanGeneratonUtil;
+import com.mongodb.MongoException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +21,31 @@ import java.util.Optional;
 public class LoanService implements ILoanService {
 
 	private final LoanMetricFactory loanMetricFactory;
+	private final LoanRepository loanRepository;
 
 	public Optional<Loan> findLoanById(Long id) {
-		return Optional.of(LoanGeneratonUtil.createLoan(id));
+		return loanRepository.findByLoanId(id);
 	}
 
-	public List<Loan> findAllLoans(){
+	public List<Loan> getAllLoans(){
+		return loanRepository.findAll();
+	}
+
+	public List<Loan> generateAllLoans(){
 		return LoanGeneratonUtil.getRandomLoans(20L);
+	}
+
+	public Optional<Loan> saveLoan(){
+		Loan loan = LoanGeneratonUtil.createLoan();
+
+		try {
+			loanRepository.save(loan);
+		} catch (MongoException e){
+			// Log error and/or rethrow a new Exception to let the controller know something went wrong
+			return Optional.empty();
+		}
+
+		return Optional.of(loan);
 	}
 
 	public Optional<LoanMetric> calculateLoanMetric(Loan loan) {
@@ -43,12 +63,13 @@ public class LoanService implements ILoanService {
 	}
 
 	public Optional<Loan> getMaxMonthlyPaymentLoan() {
-		List<Loan> allLoans = findAllLoans();
-        return allLoans.stream()
+		List<Loan> allLoans = this.getAllLoans();
+		return allLoans.stream()
 				.max(Comparator.comparingDouble( loan ->
 						loanMetricFactory.getCalculatorForLoanType(loan.getType())
 								.getLoanMetric(loan)
-								.getMonthlyPayment() ));
+								.getMonthlyPayment())
+				);
 	}
 
 	private LoanMetric getLoanMetric(Loan loan){

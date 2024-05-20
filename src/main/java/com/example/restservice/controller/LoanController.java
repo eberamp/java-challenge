@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,6 +30,15 @@ public class LoanController {
 		this.loanService = loanService;
 	}
 
+	@GetMapping("/generate")
+	public ResponseEntity<Loan> saveLoan() {
+
+		Optional<Loan> loan = loanService.saveLoan();
+		// Need better error handling with appropriate status response
+		return ResponseEntity.of(loan);
+
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Loan> getLoan(@PathVariable("id") String id) {
 
@@ -37,6 +47,18 @@ public class LoanController {
         return ResponseEntity.of(loan);
 
     }
+
+	@GetMapping("/all")
+	public ResponseEntity<List<Loan>> getAllLoans() {
+
+		List<Loan> loans = loanService.getAllLoans();
+		if(loans.isEmpty()){
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok(loans);
+
+	}
 
 	@GetMapping("/metrics/{id}")
 	public ResponseEntity<LoanMetric> calculateLoanMetric(@PathVariable("id") String id) {

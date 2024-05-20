@@ -5,6 +5,8 @@ package com.example.restservice.model;
 
 import com.example.restservice.constant.LoanType;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -12,9 +14,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Data
+@Document(collection = "loans")
 public class Loan {
 
 	@NotNull
+	@Id
 	private Long loanId;
 
 	@NotNull

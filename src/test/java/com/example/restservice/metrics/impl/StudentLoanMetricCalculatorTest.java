@@ -14,7 +14,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void shouldGetCorrectLoanMetric() {
-        Loan loan = LoanGeneratonUtil.createLoan(123457L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.STUDENT);
         loan.getBorrower().setAge(19);
 
@@ -28,7 +28,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnTrueWhenLoanTypeAndBorrowersAgeValid() {
-        Loan loan = LoanGeneratonUtil.createLoan(1235L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.STUDENT);
         loan.getBorrower().setAge(19);
 
@@ -37,7 +37,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenLoanTypeIsConsumer() {
-        Loan loan = LoanGeneratonUtil.createLoan(1235L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
         loan.getBorrower().setAge(19);
 
@@ -46,7 +46,7 @@ class StudentLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenBorrowerAgeIsNotValid() {
-        Loan loan = LoanGeneratonUtil.createLoan(1235L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.STUDENT);
 
         loan.getBorrower().setAge(18);

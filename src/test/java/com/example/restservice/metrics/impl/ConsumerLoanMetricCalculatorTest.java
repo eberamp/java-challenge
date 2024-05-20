@@ -15,7 +15,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void shouldGetCorrectLoanMetric() {
-        Loan loan = LoanGeneratonUtil.createLoan(12345L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
 
         Double expectedMonthlyInterestRate = calculateMonthlyInterestRate(loan); // repeat algorithm
@@ -28,7 +28,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnTrueWhenLoanTypeIsValid() {
-        Loan loan = LoanGeneratonUtil.createLoan(1235L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.CONSUMER);
 
         assertTrue(calculator.isSupported(loan));
@@ -37,7 +37,7 @@ class ConsumerLoanMetricCalculatorTest {
 
     @Test
     void isSupportedShouldReturnFalseWhenLoanTypeIsStudent() {
-        Loan loan = LoanGeneratonUtil.createLoan(1235L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         loan.setType(LoanType.STUDENT);
 
         assertFalse(calculator.isSupported(loan));

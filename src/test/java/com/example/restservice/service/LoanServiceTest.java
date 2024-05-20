@@ -8,6 +8,7 @@ import com.example.restservice.metrics.LoanMetricFactory;
 import com.example.restservice.metrics.impl.ConsumerLoanMetricCalculator;
 import com.example.restservice.metrics.impl.StudentLoanMetricCalculator;
 import com.example.restservice.model.Loan;
+import com.example.restservice.repository.LoanRepository;
 import com.example.restservice.util.LoanGeneratonUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +33,10 @@ class LoanServiceTest {
     private LoanMetricFactory loanMetricFactory;
 
     @Mock
-    ILoanMetricCalculator calculator;
+    private ILoanMetricCalculator calculator;
+
+    @Mock
+    private LoanRepository loanRepository;
 
     @InjectMocks
     private LoanService service;
@@ -48,13 +53,13 @@ class LoanServiceTest {
         Mockito.when(calculator.isSupported(any(Loan.class)))
                 .thenReturn(false);
 
-        Loan loan = LoanGeneratonUtil.createLoan(1234L);
+        Loan loan = LoanGeneratonUtil.createLoan();
         assertThrows(UnsupportedLoanTypeException.class, () -> service.calculateLoanMetric(loan));
     }
 
     @Test
     void calculateLoanMetricShouldThrowLoanNotFoundException() {
-        Mockito.when(serviceSpy.findLoanById(any(Long.class)))
+        Mockito.when(loanRepository.findById(any(String.class)))
                 .thenReturn(Optional.empty());
 
         Long nonExistentLoanId = 1234L;
@@ -71,15 +76,17 @@ class LoanServiceTest {
         Mockito.when(loanMetricFactory.getCalculatorForLoanType(LoanType.CONSUMER))
                 .thenReturn(new ConsumerLoanMetricCalculator());
 
-        List<Loan> loans = service.findAllLoans();
+        List<Loan> loans = service.generateAllLoans();
 
-        // Usually the loan that will pay the most is the one that has a high requested amount with high interest rate
-        // doing it this way for simplicity and avoiding having to manually set up each Loan
+        // Usually the loan that will pay the most a month is the one that has a high requested amount with high interest rate
+        // and lower month term, doing it this way for simplicity and avoiding having to manually set up each Loan
         Optional<Loan> highestPayingLoan = loans.stream()
-                .max(Comparator.comparing(Loan::getRequestedAmount)
+                .max(Comparator
+                        .comparing(Loan::getTermMonths, Comparator.reverseOrder())
+                        .thenComparing(Loan::getRequestedAmount)
                         .thenComparing(Loan::getAnnualInterest));
 
-        Mockito.when(serviceSpy.findAllLoans()).thenReturn(loans);
+        Mockito.when(serviceSpy.getAllLoans()).thenReturn(loans);
 
         Optional<Loan> result = serviceSpy.getMaxMonthlyPaymentLoan();
         assertTrue(highestPayingLoan.isPresent());
