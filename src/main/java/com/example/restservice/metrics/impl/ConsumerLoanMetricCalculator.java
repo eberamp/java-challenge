@@ -16,6 +16,7 @@ public class ConsumerLoanMetricCalculator implements ILoanMetricCalculator {
 		// There's no need to multiply monthlyInterestRate by -1 simply negating the value achieves the same
 		// BigDecimal is the recommended type for money use cases and financial transactions,
 		// for the sake of simplicity I'll stick to Double values
+		// I was left wondering if I should have called isSupported when calculating the Loan Metric
 
 		Double monthlyInterestRate = loan.getMonthlyInterestRate();
 		double monthlyPayment = (loan.getRequestedAmount() * monthlyInterestRate) / (1 - (Math.pow(1 + monthlyInterestRate, -loan.getTermMonths())));

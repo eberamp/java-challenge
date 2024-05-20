@@ -17,6 +17,7 @@ public class StudentLoanMetricCalculator implements ILoanMetricCalculator {
 		// There's no need to multiply monthlyInterestRate by -1 simply negating the value achieves the same
 		// BigDecimal is the recommended type for money use cases and financial transactions,
 		// for the sake of simplicity I'll stick to Double values
+		// I was left wondering if I should have called isSupported when calculating the Loan Metric
 
 		/*
 		Even if we argue that the formula is similar to the ConsumerLoanMetricCalculator and we could abstract it to

@@ -57,7 +57,7 @@ docker compose down -v
 If you only want to build and start up a mongo container to run the Application locally, simply do
 ```shell
 $ docker pull mongo
-$ docker run --name my-container-name -d mongo:latest
+$ docker run -d --name my-container-name --publish 27017:27017 mongo:latest
 ```
 
 # Considerations
