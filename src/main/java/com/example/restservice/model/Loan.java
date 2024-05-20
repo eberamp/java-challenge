@@ -4,7 +4,6 @@ package com.example.restservice.model;
 // If the project was set in Java 17 we could use records or Data classes in Kotlin instead
 
 import com.example.restservice.constant.LoanType;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -19,12 +18,14 @@ public class Loan {
 	private Long loanId;
 
 	@NotNull
-	@Min(1) // Maybe there's a business rule to validate that the requested amount must be a certain amount
+	@Positive
+	// Maybe there's a business rule to validate that the requested amount must be a certain amount
+	@Min(value = 1, message = "the requested amount must be valid")
 	private Double requestedAmount;
 
 	@NotNull
 	@Positive
-	@Min(1)
+	@Min(value = 1, message = "term months need to be equal or greater than 1")
 	private Integer termMonths;
 
 	@NotNull
@@ -35,7 +36,7 @@ public class Loan {
 	private LoanType type;
 
 	@NotNull
-	private Long loanOfficerId; // This didn't exist originally, but I see it in the sample request so idk
+	private Long loanOfficerId; // This didn't exist originally, but I see it in the sample request so I added it
 
 	@NotNull
 	@Valid
